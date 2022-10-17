@@ -1,0 +1,55 @@
+swagger: '2.0'
+info:
+  title: Synthetic Data Generation Service
+  version: 1.0.0
+basePath: /v1/synth
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /generate:
+    put:
+      summary: Generates synthetic data
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      description: Generates the synthetic data using config json provided
+      operationId: generateSyntheticData    # name of generated function
+      x-swagger-router-controller: default_controller
+      parameters:
+        -
+          name: configuration
+          in: body
+          description: Synthetic Data configuration json
+          required: true
+          schema:
+            type: object
+            $ref: '#/definitions/SyntheticData'
+
+      responses:
+        200:
+          description: OK
+        400:
+          description: BAD REQUEST
+
+definitions:
+  SyntheticData:
+    description: This is the Synthetic Data model
+    type: object
+    properties:
+      id:   # todo id may not be needed
+        description: id of Synthetic Data batch generated
+        type: integer
+      3dmodels:
+        type: string
+        description: 3d models used in synthetic data batch
+      scenes:
+        type: string
+        description: scenes used in in synthetic data batch
+      num_images:
+        type: integer
+        description: number of images created in synthetic data batch

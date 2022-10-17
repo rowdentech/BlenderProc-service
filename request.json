@@ -1,0 +1,22 @@
+{
+  "data_name": "JeepInQuarry",
+  "description": "config for testing code and displaying basic (unconstrained) synthetic data",
+  "num_images": 30,
+  "batch_size": 10,
+  "output_dir": "/data/nfs1/synth/",
+  "scene_file_path": "/usr/src/app/scenes/quarry_04_4k.exr",
+  "scene_description": "HDRI of quarry scene",
+  "scene_weather": [
+    "clear",
+    "sunny"
+  ],
+  "scene_terrain": [
+    "quarry"
+  ],
+  "image_type": "HDRI",
+  "object_file_path": "/usr/src/app/objects/jeep.obj",
+  "object_label": "jeep",
+  "object_description": "Open source model of jeep",
+  "camera_shift_range_xyz": [[5, 5, 5], [-5, -5, -5]],
+  "camera_location_range_xyz": [[30, 30, 30],[-30, -30, 0]]
+  }
