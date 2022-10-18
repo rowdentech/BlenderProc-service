@@ -1,3 +1,16 @@
+### Download 3d objects and scenes:
+Free3d
+polyhaven
+suggest starter scene/object
+
+### make sure folder structure /data/nfs1/synth/temp exists and chmod
+
+### ref docker image
+
+### add in pretty gifs from blenderproc github
+
+### maybe add in some pics of output
+
 # Swagger generated server
 
 ## Overview
