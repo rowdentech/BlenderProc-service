@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/bound-by-controller: "yes"
+  name: synth-pv
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: synth-pvc
+    namespace: default
+  nfs:
+    path: /data/nfs1/synth
+    server: 192.168.4.171
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-manual
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+  name: synth-pvc
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: nfs-manual
+  volumeMode: Filesystem
+  volumeName: synth-pv

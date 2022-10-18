@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sds
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: sds
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: sds
+  name: sds
+spec:
+  containers:
+  - env:
+    - name: deployment
+      value: kubernetes
+    image: docker-registry:5000/sds
+    name: sds
+    ports:
+    - containerPort: 8080
+    resources: {}
+    volumeMounts:
+      - name: nfs
+        mountPath: /data/nfs1/synth
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  volumes:
+    - name: nfs
+      persistentVolumeClaim:
+        claimName: synth-pvc
+status: {}
