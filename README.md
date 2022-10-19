@@ -8,6 +8,7 @@
 - Linux 20.04
 - Python 3.5.2+
 - Docker
+- Kubernetes
 
 # Setup
 ## Prepare objects/scenes
