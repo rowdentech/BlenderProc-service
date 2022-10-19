@@ -1,4 +1,4 @@
-# A dockerised service for Bounding Box and Segementation data generation using Blenderproc
+# A simple dockerised service for Bounding Box and Segementation data generation using Blenderproc
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -32,6 +32,7 @@ This microservice creates a kubernetes pod/docker container which fulfils reques
 ````bash
 make curl_docker
 ````
+Annotations are produced in the standard COCO json format.
 
 ## Run the Data Generation microservice in docker
 ````bash
@@ -42,3 +43,10 @@ make all_docker
 make all_kube # if sudo is required
 make all_nosudo # if not
 ````
+
+# Modifying the scene
+The request.json specifies details of how the scene is produced. The flow of the program is as follows:
+ - A point of interest is specified in the scene where the model is placed
+ - The program stochasticly shifts the point of interest (within a range) so the object isn't in the direct centre of the screen (camera_shift_range_xyz)
+ - The program specifies a random camera location within a range (camera_location_range_xyz)
+ - The rotation matrix calculates the camera angle change required to point the camera towards the point of interest
