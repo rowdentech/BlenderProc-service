@@ -42,5 +42,3 @@ make all_docker
 make all_kube # if sudo is required
 make all_nosudo # if not
 ````
-
-Data Generation requests are specified in request.json.
