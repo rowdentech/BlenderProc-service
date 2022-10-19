@@ -22,19 +22,25 @@ Before commencing, create this directory structure and set permissions to -rwxrw
 chmod -R 2777 /data/nfs1
 ````
 
-## Data Generation 
-Run:
-````bash
-make all_docker
-````
-This will:
- - Use [Swagger CodeGen](https://swagger.io/tools/swagger-codegen/) to generate server code
- - Build the [BlenderProc](https://hub.docker.com/r/blenderproc/blenderproc) docker
- - Build and deploy the data generation microservice
- - Send a data generation request after a small wait to test the service end to end
+## The Data Generation process
+This microservice creates a kubernetes pod/docker container which fulfils requests. The process:
+ - Uses [Swagger CodeGen](https://swagger.io/tools/swagger-codegen/) to generate server code
+ - Builds the [BlenderProc](https://hub.docker.com/r/blenderproc/blenderproc) docker
+ - Builds and deploys the data generation microservice
+ - Sends a data generation request after a small wait to test the service end to end
  - Further requests can be sent by modifying the request.json and running:
 ````bash
 make curl_docker
+````
+
+## Run the Data Generation microservice in docker
+````bash
+make all_docker
+````
+## Run the Data Generation microservice in kubernetes
+````bash
+make all_kube # if sudo is required
+make all_nosudo # if not
 ````
 
 Data Generation requests are specified in request.json.
