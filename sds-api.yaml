@@ -28,28 +28,9 @@ paths:
           required: true
           schema:
             type: object
-            $ref: '#/definitions/SyntheticData'
 
       responses:
         200:
           description: OK
         400:
           description: BAD REQUEST
-
-definitions:
-  SyntheticData:
-    description: This is the Synthetic Data model
-    type: object
-    properties:
-      id:   # todo id may not be needed
-        description: id of Synthetic Data batch generated
-        type: integer
-      3dmodels:
-        type: string
-        description: 3d models used in synthetic data batch
-      scenes:
-        type: string
-        description: scenes used in in synthetic data batch
-      num_images:
-        type: integer
-        description: number of images created in synthetic data batch
