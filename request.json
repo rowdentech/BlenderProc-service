@@ -1,9 +1,10 @@
 {
   "data_name": "AnafiDroneMultiBackground",
   "description": "config for testing code and displaying basic (unconstrained) synthetic data",
-  "num_images": 30,
+  "num_images": 250,
   "batch_size": 10,
   "output_dir": "/data/nfs1/synth/",
+  "scenes_dir": "/usr/src/app/scenes/",
   "scene_file_path": "/usr/src/app/scenes/urban_street_04_4k.exr",
   "scene_description": "HDRI of scene",
   "scene_weather": [
@@ -16,7 +17,7 @@
   "image_type": "HDRI",
   "object_file_path": "/usr/src/app/objects/Parrot-Anafi-drone.obj",
   "object_label": "ParrotAnafiDrone",
-  "object_description": "Open source model of jeep",
+  "object_description": "Model of Parrot Anafi Drone",
   "camera_shift_range_xyz": [[0.2, 0.2, 0.2], [-0.2, -0.2, -0.2]],
   "camera_location_range_xyz": [[4.0, 4.0, 4.0],[-1.5, -1.5, -1.5]]
   }

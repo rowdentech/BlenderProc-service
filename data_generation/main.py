@@ -8,6 +8,7 @@ from pathlib import Path
 import logging
 import sys
 import ast
+import random
 logger = logging.getLogger("Synthetic Image Generation")
 
 bproc.init()
@@ -26,11 +27,15 @@ except KeyError as e:
 logging.critical(os.environ['scene_file_path'])
 logging.critical(os.path.isfile(os.environ['scene_file_path']))
 logging.critical(os.path.splitext(os.environ['scene_file_path'])[-1].lower() == '.exr')
-if os.path.isfile(os.environ['scene_file_path']) \
-        and os.path.splitext(os.environ['scene_file_path'])[-1].lower() == '.exr':
-    logger.critical("Loading background {}".format(os.environ["scene_file_path"]))
+scene_file_path_list = [os.path.join(os.environ["scenes_dir"], scene) for scene in os.listdir(os.environ["scenes_dir"]) if scene[-4:]==".exr"]
+logging.critical(scene_file_path_list)
+current_scene_file_path = random.choice(scene_file_path_list)
+logging.critical(current_scene_file_path)
+if os.path.isfile(current_scene_file_path) \
+        and os.path.splitext(current_scene_file_path)[-1].lower() == '.exr':
+    logger.critical("Loading background {}".format(current_scene_file_path))
     bproc.init(clean_up_scene=True)
-    bproc.world.set_world_background_hdr_img(os.environ["scene_file_path"])
+    bproc.world.set_world_background_hdr_img(current_scene_file_path)
 else:
     raise TypeError('Scene must be a OpenEXR file (.exr)')
 
