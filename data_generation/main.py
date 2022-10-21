@@ -45,6 +45,9 @@ else:
 
 for j, o in enumerate(object_3d):
     o.set_cp("category_id", j+1)
+    o.set_scale([0.001, 0.001, 0.001])
+    for mat in o.get_materials():
+        mat.map_vertex_color()
 poi = bproc.object.compute_poi(object_3d)
 unique_job_name = job_name + datetime.datetime.now().strftime('_%Y%m%d%H%M%S%f')[:-3]
 out_dir = "/data/vol2"
@@ -60,7 +63,9 @@ else:   # no folder exists
 
 images_per_batch=int(os.environ["batch_size"])
 
-for i in range(images_per_batch):
+i = 0
+check = 0
+while i < images_per_batch:
     bproc.utility.reset_keyframes()
     print('================')
     print(f'{i}/{images_per_batch}')
@@ -95,30 +100,38 @@ for i in range(images_per_batch):
     )
 
     # render the whole pipeline
-    bproc.renderer.enable_normals_output()
-    data = bproc.renderer.render()
-    seg_data = bproc.renderer.render_segmap(map_by=["instance", "class", "name"])
-    data.update(seg_data)
+    try:
+        bproc.renderer.enable_normals_output()
+        data = bproc.renderer.render()
+        seg_data = bproc.renderer.render_segmap(map_by=["instance", "class", "name"])
+        data.update(seg_data)
 
-    altitude = location[2]
-    distance_to_target = (np.sqrt(np.sum((location - object_3d[0].get_location()) ** 2, axis=0)))
-    elevation_angle = math.degrees(altitude/distance_to_target)
+        altitude = location[2]
+        distance_to_target = (np.sqrt(np.sum((location - object_3d[0].get_location()) ** 2, axis=0)))
+        elevation_angle = math.degrees(altitude/distance_to_target)
 
-    metadata = {"config_file" : job_name,
-                "scene_file" : os.environ['scene_file_path'],
-                "object_file" : os.environ['object_file_path'],
-                "altitude" : "{:.1f}".format(altitude),
-                "distance_to_target": "{:.1f}".format(distance_to_target),
-                "elevation_angle": "{:.1f}".format(elevation_angle),
-                }
+        metadata = {"config_file" : job_name,
+                    "scene_file" : os.environ['scene_file_path'],
+                    "object_file" : os.environ['object_file_path'],
+                    "altitude" : "{:.1f}".format(altitude),
+                    "distance_to_target": "{:.1f}".format(distance_to_target),
+                    "elevation_angle": "{:.1f}".format(elevation_angle),
+                    }
 
-
-    # Output annotations
-    bproc.writer.write_coco_annotations(out_dir,
-                                        metadata=metadata,
-                                        instance_segmaps=seg_data["instance_segmaps"],
-                                        instance_attribute_maps=seg_data["instance_attribute_maps"],
-                                        colors=data["colors"],
-                                        color_file_format="JPEG",
-                                        append_to_existing_output=True
-                                        )
+        # Output annotations
+        bproc.writer.write_coco_annotations(out_dir,
+                                            metadata=metadata,
+                                            instance_segmaps=seg_data["instance_segmaps"],
+                                            instance_attribute_maps=seg_data["instance_attribute_maps"],
+                                            colors=data["colors"],
+                                            color_file_format="JPEG",
+                                            append_to_existing_output=True
+                                            )
+        i += 1
+    except:
+        logging.critical("Error rendering/writing image and annotation to file. Retrying...")
+        check += 1
+        if check == images_per_batch:
+            logging.critical("Repetitive error found when writing images. Aborting.")
+            break
+        continue
