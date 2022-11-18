@@ -16,7 +16,7 @@ spec:
     namespace: default
   nfs:
     path: /data/nfs1/synth
-    server: 192.168.4.171
+    server:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: nfs-manual
   volumeMode: Filesystem

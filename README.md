@@ -45,6 +45,9 @@ make all_kube # if sudo is required
 make all_nosudo # if not
 ````
 
+### NB: 
+The kubernetes version expects a NFS to be configured, with its ip address specified in synth-pv-pvc.yaml: (spec:nfs:server)
+
 # Modifying the scene
 The request.json specifies details of how the scene is produced. The flow of the program is as follows:
  - A point of interest is specified in the scene where the model is placed
